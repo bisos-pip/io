@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
+csInfo['version'] = '202208073306'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'bpoGpg-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,22 +56,22 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
 ####+END:
 
-####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
-from bisos import cs
+
+#from bisos import cs
 from bisos import io
-from bisos import bpf
-####+END:
-
-import logging
+#from bisos import b
 
 
-####+BEGIN: bx:icm:py3:section :title "TM: Tracing Module (TM)/Class -- Instrumented Tracing On Top Of CS Logging"
+#import logging
+
+
+####+BEGIN: bx:cs:py3:section :title "TM: Tracing Module (TM)/Class -- Instrumented Tracing On Top Of CS Logging"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *TM: Tracing Module (TM_)/Class -- Instrumented Tracing On Top Of CS Logging*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -98,8 +98,8 @@ def note(
 
     return
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = b.ast.FUNC_currentGet()
+    argsLength =  b.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
@@ -128,20 +128,20 @@ def here(
 
     return
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = b.ast.FUNC_currentGet()
+    argsLength =  b.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.debug('TM_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.debug('TM_: ' + outString + ' -- ' + b.ast.stackFrameInfoGet(2) )
 
 
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
 """
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
 """

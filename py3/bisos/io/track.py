@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['track'], }
+csInfo['version'] = '202209082210'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'track-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,55 +56,19 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
 ####+END:
 
-####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
-
 from bisos import io
-#from bisos import cs
 
-# import bisos.cs.runArgs
-
-#G = cs.IcmGlobalContext()
-
-# G.icmLibsAppend = __file__
-# G.icmCmndsLibsAppend = __file__
-
-from blee.icmPlayer import bleep
-####+END:
-
-#import os
 import sys
-#import select
 
-# import pwd
-# import grp
-# import collections
-# import enum
-#
+from bisos import b
 
-#import traceback
-
-# import collections
-
-# import pathlib
-
-# from bisos.platform import bxPlatformConfig
-# from bisos.platform import bxPlatformThis
-
-# from bisos.basics import pattern
-
-# from bisos.bpo import bpo
-#from bisos.pals import palsSis
-#from bisos.icm import fpath
-
-from bisos import bpf
-
-from bisos import cs
+#from bisos import cs
 from bisos.cs import runArgs
 
 from bisos import io
@@ -149,7 +113,7 @@ def STR_insertMultiples(
 
 
 
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
+####+BEGIN: bx:cs:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "" :argsList ""
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -225,29 +189,29 @@ def subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True):
 
             # Collect function arguments by chaining together positional,
             # defaulted, extra positional and keyword arguments.
-            positional = list(map(bpf.ast.format_arg_value, list(zip(argnames, v))))
-            defaulted = [bpf.ast.format_arg_value((a, argdefs[a]))
+            positional = list(map(b.ast.format_arg_value, list(zip(argnames, v))))
+            defaulted = [b.ast.format_arg_value((a, argdefs[a]))
                          for a in argnames[len(v):] if a not in k]
             nameless = list(map(repr, v[argcount:]))
-            keyword = list(map(bpf.ast.format_arg_value, list(k.items())))
+            keyword = list(map(b.ast.format_arg_value, list(k.items())))
             args = positional + defaulted + nameless + keyword
 
             logControler = io.log.Control()
             logger = logControler.loggerGet()
 
-            depth = bpf.ast.stackFrameDepth(2)
+            depth = b.ast.stackFrameDepth(2)
             indentation = STR_indentMultiples(multiple=depth)
 
             # if fnLoc:
-            #     logger.debug(format('%s Monitoring(M-Call-%s): ' % (indentation, depth)) + ucf.stackFrameInfoGet(2))
+            #     logger.debug(format('%s Monitoring(M-Call-%s): ' % (indentation, depth)) + b.ast.stackFrameInfoGet(2))
 
             if fnEntry:
-                logger.debug( "%s M-Enter-%s: %s(%s) AT %s" % (indentation, depth, fn.__name__, ", ".join(args), bpf.ast.stackFrameInfoGet(2)))
+                logger.debug( "%s M-Enter-%s: %s(%s) AT %s" % (indentation, depth, fn.__name__, ", ".join(args), b.ast.stackFrameInfoGet(2)))
 
             retVal = fn(*v, **k)
 
             if fnExit:
-                logger.debug( "%s M-Return-%s(%s):  %s AT %s" % (indentation, depth, fn.__name__, retVal, bpf.ast.stackFrameInfoGet(2)))
+                logger.debug( "%s M-Return-%s(%s):  %s AT %s" % (indentation, depth, fn.__name__, retVal, b.ast.stackFrameInfoGet(2)))
 
             return retVal
         return wrapped
@@ -275,7 +239,7 @@ def callableEntryEnhancer(type='generic'):
          The cmnd type mimics Emacs' (interactive)
     """
     if icmRunArgs_isDocStringRequested():
-        print(( ucf.stackFrameInfoGet(2) ))
+        print(( b.ast.stackFrameInfoGet(2) ))
         #print( stackFrameArgsGet(2) )
         print(( ucf.stackFrameDocString(2) ))
 
@@ -340,12 +304,12 @@ def do(fn, *v, **k):
     keyword = list(map(ucf.format_arg_value, list(k.items())))
     args = positional + defaulted + nameless + keyword
 
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
     depth = ucf.stackFrameDepth(2)
     indentation = ucf.STR_indentMultiples(multiple=depth)
 
-    logger.debug(format('%s Invoking(I-Call-%s): ' % (indentation, depth)) + ucf.stackFrameInfoGet(2))
+    logger.debug(format('%s Invoking(I-Call-%s): ' % (indentation, depth)) + b.ast.stackFrameInfoGet(2))
     logger.debug( "%s I-Enter-%s: %s(%s)" % (indentation, depth, fn.__name__, ", ".join(args)) )
     retVal = fn(*v, **k)
     logger.debug( "%s I-Return-%s(%s):  %s" % (indentation, depth, fn.__name__, retVal) )
@@ -376,12 +340,12 @@ def doLog(fn, *v, **k):
     keyword = list(map(ucf.format_arg_value, list(k.items())))
     args = positional + defaulted + nameless + keyword
 
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
     depth = ucf.stackFrameDepth(2)
     indentation = ucf.STR_indentMultiples(multiple=depth)
 
-    logger.debug(format('Invoking(I-Call-%s): ' % (depth)) + ucf.stackFrameInfoGet(2))
+    logger.debug(format('Invoking(I-Call-%s): ' % (depth)) + b.ast.stackFrameInfoGet(2))
     logger.debug( "%s I-Enter-%s: %s(%s)" % (indentation, depth, fn.__name__, ", ".join(args)) )
     retVal = fn(*v, **k)
     logger.debug( "%s I-Return-%s(%s):  %s" % (indentation, depth, fn.__name__, retVal) )
@@ -389,10 +353,10 @@ def doLog(fn, *v, **k):
 
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

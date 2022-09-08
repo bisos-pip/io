@@ -26,12 +26,12 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
-icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
-icmInfo['groupingType'] = 'IcmGroupingType-pkged'
-icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['log'], }
+csInfo['version'] = '202209083410'
+csInfo['status']  = 'inUse'
+csInfo['panel'] = 'log-Panel.org'
+csInfo['groupingType'] = 'IcmGroupingType-pkged'
+csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
 """ #+begin_org
@@ -56,7 +56,7 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
+####+BEGIN: bx:cs:python:icmItem :itemType "=PyImports= " :itemTitle "*Py Library IMPORTS*"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -65,7 +65,7 @@ Module description comes here.
 ####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
 from bisos import cs
 from bisos import io
-from bisos import bpf
+from bisos import b
 ####+END:
 
 import logging
@@ -82,7 +82,7 @@ logger.addHandler(handler)
 
 #logger.info('connecting')
 
-####+BEGIN: bx:icm:py3:section :title "LOG: ICM Logging Control -- On top of Standard of Python Logging"
+####+BEGIN: bx:cs:py3:section :title "LOG: ICM Logging Control -- On top of Standard of Python Logging"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *LOG: ICM Logging Control -- On top of Standard of Python Logging*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -246,7 +246,7 @@ class Control(object):
         return self.__class__.logger
 
 
-####+BEGIN: bx:icm:py3:section :title "LOG_: Significant Event Which Is Not An Error"
+####+BEGIN: bx:cs:py3:section :title "LOG_: Significant Event Which Is Not An Error"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *LOG_: Significant Event Which Is Not An Error*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -270,8 +270,8 @@ def note(
     logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = bpf.ast.FUNC_currentGet()
-    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
+    fn = b.ast.FUNC_currentGet()
+    argsLength =  b.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
@@ -296,18 +296,18 @@ def here(
     logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = bpf.ast.FUNC_currentGet()
-    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
+    fn = b.ast.FUNC_currentGet()
+    argsLength =  b.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.info('LOG_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
+    logger.info('LOG_: ' + outString + ' -- ' + b.ast.stackFrameInfoGet(2) )
 
 
-####+BEGIN: bx:icm:py3:section :title "Raw  Logging At Level"
+####+BEGIN: bx:cs:py3:section :title "Raw  Logging At Level"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Raw  Logging At Level*  [[elisp:(org-cycle)][| ]]
 #+end_org """
@@ -410,10 +410,10 @@ def critical(
 
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"

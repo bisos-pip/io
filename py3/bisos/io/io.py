@@ -26,10 +26,10 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['out'], }
-csInfo['version'] = '202209083604'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['io'], }
+csInfo['version'] = '202208305727'
 csInfo['status']  = 'inUse'
-csInfo['panel'] = 'out-Panel.org'
+csInfo['panel'] = 'io-Panel.org'
 csInfo['groupingType'] = 'IcmGroupingType-pkged'
 csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
@@ -62,70 +62,32 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-from bisos import b
 
-"""
-*  [[elisp:(org-cycle)][| ]]  /OUT_/               :: *OUT_: Output Module (OUT_)/Class* [[elisp:(org-cycle)][| ]]
-"""
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  OUT_write  -- Same As print to stderr [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:section :title "TM: Tracing Module (TM)/Class -- Instrumented Tracing On Top Of CS Logging"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *TM: Tracing Module (TM)/Class -- Instrumented Tracing On Top Of CS Logging*  [[elisp:(org-cycle)][| ]]
+#+end_org """
+####+END:
 
-def OUT_write(*v, **k):
-    """
-    """
-    fn = b.ast.FUNC_currentGet()
-    argsLength =  b.ast.FUNC_argsLength(fn, v, k)
+####+BEGIN: bx:cs:py3:func :funcName "pr" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /pr/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def pr(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-    if argsLength == 2:   # empty '()'
-        outString = ''
-    else:
-        outString = format(*v, **k)
-
-    print( outString )
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  OUT_note -- Prepends OUT_:     [[elisp:(org-cycle)][| ]]
-"""
-
-def OUT_note(*v, **k):
-    """
-    """
-    fn = b.ast.FUNC_currentGet()
-    argsLength =  b.ast.FUNC_argsLength(fn, v, k)
-
-    if argsLength == 2:   # empty '()'
-        outString = ''
-    else:
-        outString = format(*v, **k)
-
-    print( outString )
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  OUT_here -- Prepends OUT_ and adds stackFrameInfoGet(2)   [[elisp:(org-cycle)][| ]]
-"""
-
-def OUT_here(*v, **k):
-    """Mark file and line -- do the equivalent of a print statement.
-    """
-    fn = b.ast.FUNC_currentGet()
-    argsLength =  b.ast.FUNC_argsLength(fn, v, k)
-
-    if argsLength == 2:   # empty '()'
-        outString = ''
-    else:
-        outString = format(*v, **k)
-
-    print(('OUT_: ' + outString + ' -- ' + b.ast.stackFrameInfoGet(2) ))
-
-
-
-
+    return print(format(*v, **k))
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :title " ~End Of Editable Text~ "
-""" #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _ ~End Of Editable Text~ _: |]]    [[elisp:(org-shifttab)][<)]] E|
-#+end_org """
+"""
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+"""
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"
