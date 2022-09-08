@@ -62,91 +62,41 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
-from unisos import ucf
-from unisos import icm
-
-icm.unusedSuppressForEval(ucf.__file__)  # in case icm and ucf are not used
-
-G = icm.IcmGlobalContext()
-# G.icmLibsAppend = __file__
-# G.icmCmndsLibsAppend = __file__
-
-from blee.icmPlayer import bleep
+####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
+from bisos import cs
+from bisos import io
+from bisos import bpf
 ####+END:
 
-#import os
-import sys
-#import select
+import logging
 
-# import pwd
-# import grp
-# import collections
-# import enum
-#
 
-#import traceback
-
-# import collections
-
-# import pathlib
-
-# from bisos.platform import bxPlatformConfig
-# from bisos.platform import bxPlatformThis
-
-# from bisos.basics import pattern
-
-# from bisos.bpo import bpo
-#from bisos.pals import palsSis
-#from bisos.icm import fpath
-
-# from bisos import bpf
-
-# import gnupg
-
-#import logging
-
-#import shutil
-
-# import pykeepass_cache
-# import pykeepass
-
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)" :argsList ""
+####+BEGIN: bx:icm:py3:section :title "TM: Tracing Module (TM)/Class -- Instrumented Tracing On Top Of CS Logging"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/ deco=icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *TM: Tracing Module (TM_)/Class -- Instrumented Tracing On Top Of CS Logging*  [[elisp:(org-cycle)][| ]]
 #+end_org """
-@icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def read(
 ####+END:
-) -> str:
+
+####+BEGIN: bx:cs:py3:func :funcName "note" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /note/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def note(
+####+END:
+        *v,
+        **k,
+) -> None:
     """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
+** [[elisp:(org-cycle)][| *DocStr | ]
     #+end_org """
 
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
-
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
-
-        stdinAsStr = str("".join(msgAsList),)
-
-    return stdinAsStr
-
-"""
-*  [[elisp:(org-cycle)][| ]]  /TM_/                :: *TM_: Trackings Module (TM_)/Class -- Instrumented Tracing On Top Of ICM-Logging* [[elisp:(org-cycle)][| ]]
-"""
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  TM_note  -- logging.debug (10) -- bxf.tm.note() [[elisp:(org-cycle)][| ]]
-"""
-
-def TM_note(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
+
+    logger.debug('TM_: ' + format(*v, **k))
+
+    return
 
     fn = ucf.FUNC_currentGet()
     argsLength =  ucf.FUNC_argsLength(fn, v, k)
@@ -158,15 +108,25 @@ def TM_note(*v, **k):
 
     logger.debug( 'TM_: ' + outString )
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  TM_here  -- logging.debug (10) -- bxf.tm.here() [[elisp:(org-cycle)][| ]]
-"""
-
-def TM_here(*v, **k):
-    """Mark file and line -- do the equivalent of a print statement.
-    """
-    logControler = LOG_Control()
+####+BEGIN: bx:cs:py3:func :funcName "here" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /here/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def here(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Mark file and line -- do the equivalent of a print statement.
+    #+end_org """
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
+
+    logger.debug('TM_: ' + format(*v, **k))
+
+    return
 
     fn = ucf.FUNC_currentGet()
     argsLength =  ucf.FUNC_argsLength(fn, v, k)

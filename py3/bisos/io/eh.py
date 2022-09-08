@@ -26,10 +26,10 @@
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['bpoGpg'], }
-icmInfo['version'] = '202208073306'
+icmInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['eh'], }
+icmInfo['version'] = '202208304656'
 icmInfo['status']  = 'inUse'
-icmInfo['panel'] = 'bpoGpg-Panel.org'
+icmInfo['panel'] = 'eh-Panel.org'
 icmInfo['groupingType'] = 'IcmGroupingType-pkged'
 icmInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
@@ -62,18 +62,6 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
-from unisos import ucf
-from unisos import icm
-
-icm.unusedSuppressForEval(ucf.__file__)  # in case icm and ucf are not used
-
-G = icm.IcmGlobalContext()
-# G.icmLibsAppend = __file__
-# G.icmCmndsLibsAppend = __file__
-
-from blee.icmPlayer import bleep
-####+END:
 
 #import os
 import sys
@@ -100,170 +88,188 @@ import sys
 #from bisos.pals import palsSis
 #from bisos.icm import fpath
 
-# from bisos import bpf
+from bisos import bpf
+from bisos import io
 
 # import gnupg
 
-#import logging
+import logging
 
 #import shutil
 
 # import pykeepass_cache
 # import pykeepass
 
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)" :argsList ""
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "EH: ICM Error Handling On Top Of Python Exceptions" :anchor "" :extraInfo " (EH_ Module)"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/ deco=icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _EH: ICM Error Handling On Top Of Python Exceptions_: |]]   (EH_ Module)  [[elisp:(org-shifttab)][<)]] E|
 #+end_org """
-@icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def read(
+####+END
+
+####+BEGIN: bx:cs:py3:func :funcName "critical_cmndArgsPositional" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /critical_cmndArgsPositional/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def critical_cmndArgsPositional(
 ####+END:
-) -> str:
+        *v,
+        **k,
+) -> None:
     """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
+** [[elisp:(org-cycle)][| *DocStr | ]
     #+end_org """
 
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
-
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
-
-        stdinAsStr = str("".join(msgAsList),)
-
-    return stdinAsStr
-
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  /EH_/                :: *EH_: ICM Error Handling On Top Of Python Exceptions (EH_ Module)* [[elisp:(org-cycle)][| ]]
-"""
-"""
-**  [[elisp:(org-cycle)][| ]]  Subject      ::== CmndArgs Exceptions (EH_ Module) [[elisp:(org-cycle)][| ]]
-"""
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_critical_cmndArgsPositional  --   [[elisp:(org-cycle)][| ]]
-"""
-
-def EH_critical_cmndArgsPositional(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.critical('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
     #raise RuntimeError()
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_critical_cmndArgsOptional    [[elisp:(org-cycle)][| ]]
-"""
 
-def EH_critical_cmndArgsOptional(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+####+BEGIN: bx:cs:py3:func :funcName "critical_cmndArgsOptional" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /critical_cmndArgsOptional/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def critical_cmndArgsOptional(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.critical('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
     #raise RuntimeError()
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_critical_usageError    [[elisp:(org-cycle)][| ]]
-"""
 
-def EH_critical_usageError(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+####+BEGIN: bx:cs:py3:func :funcName "critical_usageError" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /critical_usageError/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def critical_usageError(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.critical('EH_usageError: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_usageError: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
     return(ReturnCode.UsageError)
     #raise RuntimeError()
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_problem_notyet    [[elisp:(org-cycle)][| ]]
-"""
 
-def EH_problem_notyet(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+####+BEGIN: bx:cs:py3:func :funcName "problem_notyet" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /problem_notyet/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def problem_notyet(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.critical('EH_NotYet: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_NotYet: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
     #raise RuntimeError()
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_problem_info    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "problem_info" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /problem_info/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def problem_info(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-def EH_problem_info(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    logger.critical('EH_Info: ' + format(*v, **k) + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
+
+    return
+
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.critical('EH_Info: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_Info: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_problem_usageError -- logger.error (40)  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "problem_usageError" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /problem_usageError/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def problem_usageError(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-def EH_problem_usageError(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.critical('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
 
     return (
         eh_problem_usageError(OpOutcome(), *v, **k)
@@ -272,113 +278,116 @@ def EH_problem_usageError(*v, **k):
     #raise RuntimeError()
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  eh_problem_usageError -- Captured in Outcome  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "eh_problem_usageError" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /eh_problem_usageError/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def eh_problem_usageError(
+####+END:
+        outcome,
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-
-def eh_problem_usageError(outcome, *v, **k):
-    """
-    """
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    errStr='EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2)
+    errStr='EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2)
     return(outcome.set(
         opError=OpError.UsageError,
         opErrInfo=errStr,
     ))
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_critical_unassigedError    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "critical_unassigedError" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /critical_unassigedError/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def critical_unassigedError(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-def EH_critical_unassigedError(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.critical('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
-    #raise RuntimeError()
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_problem_unassignedError    [[elisp:(org-cycle)][| ]]
-"""
-
-def EH_problem_unassignedError(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
-    logger = logControler.loggerGet()
-
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
-
-    if argsLength == 2:   # empty '()'
-        outString = ''
-    else:
-        outString = format(*v, **k)
-
-    logger.critical('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
     #raise RuntimeError()
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_critical_oops    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "critical_oops" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /critical_oops/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def critical_oops(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-def EH_critical_oops(*v, **k):
-    """A Software Error has Occured.
-    """
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    print(('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) ))
-    logger.critical('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    print(('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) ))
+    logger.critical('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
 
     traceback.print_stack()
 
 
     #raise RuntimeError()
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_critical_exception    [[elisp:(org-cycle)][| ]]
-"""
-
-def EH_critical_exception(e):
-    """ Usage Example:
+####+BEGIN: bx:cs:py3:func :funcName "critical_exception" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /critical_exception/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def critical_exception(
+####+END:
+        e,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Usage Example:
     try: m=2/0
     except Exception as e: icm.EH_critical_exception(e)
-    """
-    logControler = LOG_Control()
+    #+end_org """
+
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
     #fn = FUNC_currentGet()
 
     outString = format(e)
 
-    logger.critical('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.critical('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
 
     exc_type, exc_obj, exc_tb = sys.exc_info()
     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -397,12 +406,18 @@ def EH_critical_exception(e):
     #logger.error("EH_critical_exception", exc_info=True)
     #print(traceback.format_exc())
 
+####+BEGIN: bx:cs:py3:func :funcName "badOutcome" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /badOutcome/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def badOutcome(
+####+END:
+        outcome,
+):
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_badOutcome    [[elisp:(org-cycle)][| ]]
-"""
-def EH_badOutcome(outcome):
     print((
         "EH_badOutcome: InvokedBy {invokerName}, Operation Failed: Stdcmnd={stdcmnd} Error={status} -- {errInfo}".
         format(invokerName=outcome.invokerName,
@@ -410,44 +425,66 @@ def EH_badOutcome(outcome):
                status=outcome.error,
                errInfo=outcome.errInfo,
         )))
-    print(('EH_: ' + ' -- ' + ucf.stackFrameInfoGet(2) ))
+    print(('EH_: ' + ' -- ' + bpf.ast.stackFrameInfoGet(2) ))
 
     return outcome
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || CMND              ::  EH_badLastOutcome    [[elisp:(org-cycle)][| ]]
-"""
-def EH_badLastOutcome():
+####+BEGIN: bx:cs:py3:func :funcName "badLastOutcome" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /badLastOutcome/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def badLastOutcome(
+####+END:
+):
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
     return (
         EH_badOutcome(
-            IcmGlobalContext().lastOpOutcome
+            cs.G.lastOpOutcome
         ))
 
-def eh_badLastOutcome():
+####+BEGIN: bx:cs:py3:func :funcName "eh_badLastOutcome" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /eh_badLastOutcome/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def eh_badLastOutcome(
+####+END:
+):
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
     return (
-            IcmGlobalContext().lastOpOutcome
+            cs.G.lastOpOutcome
     )
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  EH_runTime    [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "runTime" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /runTime/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def runTime(
+####+END:
+        *v,
+        **k,
+):
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-def EH_runTime(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.error('EH_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.error('EH_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
     raise RuntimeError()
 
 

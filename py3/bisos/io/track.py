@@ -65,7 +65,9 @@ Module description comes here.
 ####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
 
 from bisos import io
-from bisos import cs
+#from bisos import cs
+
+# import bisos.cs.runArgs
 
 #G = cs.IcmGlobalContext()
 
@@ -101,7 +103,13 @@ import sys
 #from bisos.icm import fpath
 
 from bisos import bpf
+
+from bisos import cs
+from bisos.cs import runArgs
+
 from bisos import io
+
+
 
 # import gnupg
 
@@ -184,6 +192,7 @@ def read(
 def subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True):
     """[DECORATOR-WITH-ARGS:]  Passes parameters to subSubjectToTracking. See subSubjectToTracking.
     """
+    #import bisos.cs.runArgs
 
     def subSubjectToTracking(fn):
         """[DECORATOR:] tracks calls to a function.
@@ -211,7 +220,7 @@ def subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True):
             #if icmRunArgs_isCallTrackingMonitorOff():   # normally on, turns-off with monitor-
                 #return fn(*v, **k)
 
-            if not cs.icmRunArgs_isCallTrackingMonitorOn(): # normally off, turns-on with monitor+
+            if not runArgs.isCallTrackingMonitorOn(): # normally off, turns-on with monitor+
                 return fn(*v, **k)
 
             # Collect function arguments by chaining together positional,
@@ -223,7 +232,7 @@ def subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True):
             keyword = list(map(bpf.ast.format_arg_value, list(k.items())))
             args = positional + defaulted + nameless + keyword
 
-            logControler = io.log.LOG_Control()
+            logControler = io.log.Control()
             logger = logControler.loggerGet()
 
             depth = bpf.ast.stackFrameDepth(2)

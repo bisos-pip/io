@@ -62,57 +62,15 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
-from unisos import ucf
-from unisos import icm
-
-icm.unusedSuppressForEval(ucf.__file__)  # in case icm and ucf are not used
-
-G = icm.IcmGlobalContext()
-# G.icmLibsAppend = __file__
-# G.icmCmndsLibsAppend = __file__
-
-from blee.icmPlayer import bleep
+####+BEGINNOT: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
+from bisos import cs
+from bisos import io
+from bisos import bpf
 ####+END:
 
-#import os
-import sys
-#import select
-
-# import pwd
-# import grp
-# import collections
-# import enum
-#
-
-#import traceback
-
-# import collections
-
-# import pathlib
-
-# from bisos.platform import bxPlatformConfig
-# from bisos.platform import bxPlatformThis
-
-# from bisos.basics import pattern
-
-# from bisos.bpo import bpo
-#from bisos.pals import palsSis
-#from bisos.icm import fpath
-
-# from bisos import bpf
-
+import logging
 import getpass
 
-#import logging
-
-#import shutil
-
-# import pykeepass_cache
-# import pykeepass
-
-
-import logging
 logger = logging.getLogger('root')
 
 handler = logging.StreamHandler()
@@ -122,36 +80,14 @@ handler.setFormatter(
     )
 logger.addHandler(handler)
 
-logger.info('connecting')
+#logger.info('connecting')
 
-####+BEGIN: bx:icm:py3:func :funcName "read" :funcType "extTyped" :retType "extTyped" :deco "icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)" :argsList ""
+####+BEGIN: bx:icm:py3:section :title "LOG: ICM Logging Control -- On top of Standard of Python Logging"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /read/ deco=icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *LOG: ICM Logging Control -- On top of Standard of Python Logging*  [[elisp:(org-cycle)][| ]]
 #+end_org """
-@icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-def read(
 ####+END:
-) -> str:
-    """ #+begin_org
-** [[elisp:(org-cycle)][| *DocStr | ] Reads stdin. Returns a string. -- Uses mutable list.
-    #+end_org """
 
-    stdinAsStr = ""
-    #if select.select([sys.stdin, ], [], [], 0.0)[0]:
-    if not sys.stdin.isatty():
-
-        msgAsList = []
-        for line in sys.stdin:
-            msgAsList.append(str(line))
-
-        stdinAsStr = str("".join(msgAsList),)
-
-    return stdinAsStr
-
-
-"""
-*  [[elisp:(org-cycle)][| ]]  /Outputs Control/    :: *LOG_: ICM Logging Control -- On top of Standard of Python Logging* [[elisp:(org-cycle)][| ]]
-"""
 
 #LOGGER = 'Icm.Python.Logger'
 LOGGER = 'Icm'
@@ -160,12 +96,15 @@ CONSL_LEVEL_RANGE = list(range(0, 51))
 FORMAT_STR = '%(levelname)s %(message)s -- %(asctime)s'
 
 
-####+BEGIN: bx:icm:python:func :funcName "logFileName" :funcType "anyOrNone" :retType "str" :deco "" :argsList ""
-"""
-*  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Func-anyOrNone :: /logFileName/ retType=str argsList=nil  [[elisp:(org-cycle)][| ]]
-"""
-def logFileName():
+
+####+BEGIN: bx:cs:py3:func :funcName "logFileName" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /logFileName/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def logFileName(
 ####+END:
+):
     return (
         "/tmp/{userName}-ICM.log".format(
             userName=getpass.getuser()
@@ -173,11 +112,15 @@ def logFileName():
     )
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  getConsoleLevel    [[elisp:(org-cycle)][| ]]
-"""
-
-def getConsoleLevel(args):
+####+BEGIN: bx:cs:py3:func :funcName "getConsoleLevel" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /getConsoleLevel/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def getConsoleLevel(
+####+END:
+        args,
+):
     level = args.verbosityLevel
     if level is None: return
     try: level = int(level)
@@ -188,13 +131,15 @@ def getConsoleLevel(args):
         return
     return level
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Class            ::  LOG_Control  -- logging: debug(TM_), info(LOG_), warning(EH_), error(EH_), critical(EH_)   [[elisp:(org-cycle)][| ]]
-"""
-
-class LOG_Control():
-    """ICM Logging on top of basic Logging.
-    """
+####+BEGIN: bx:dblock:python:class :className "Control" :superClass "" :comment "" :classType "basic"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /Control/ object  [[elisp:(org-cycle)][| ]]
+#+end_org """
+class Control(object):
+####+END:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| DocStr| ]]  ICM Logging on top of basic Logging.
+    #+end_org """
 
     args = None
     logger = None
@@ -204,7 +149,7 @@ class LOG_Control():
     def __init__(self):
         pass
 
-    def loggerSet(self, args):
+    def loggerSet(self, args) -> logging.Logger:
         """
         """
 
@@ -297,26 +242,36 @@ class LOG_Control():
         fh = self.__class__.fh
         fh.formatter = formatter
 
-    def loggerGet(self):
+    def loggerGet(self) -> logging.Logger:
         return self.__class__.logger
 
 
-"""
-*  [[elisp:(org-cycle)][| ]]  /LOG_/               :: *LOG_: Significant Event Which Is Not An Error* [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:icm:py3:section :title "LOG_: Significant Event Which Is Not An Error"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *LOG_: Significant Event Which Is Not An Error*  [[elisp:(org-cycle)][| ]]
+#+end_org """
+####+END:
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  LOG_note  -- logging.info (20) -- bxf.info.note() -- bxf.info.op.note(outcome,).log()  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:func :funcName "note" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /note/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def note(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
 
-def LOG_note(*v, **k):
-    """
-    """
-    logControler = LOG_Control()
+
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
@@ -325,26 +280,133 @@ def LOG_note(*v, **k):
 
     logger.info( 'LOG_: ' + outString )
 
-"""
-*  [[elisp:(org-cycle)][| ]]  [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(beginning-of-buffer)][Top]] [[elisp:(delete-other-windows)][(1)]] || Func             ::  LOG_here  -- logging.info (20) -- bxf.info.here() -- bxf.info.op.here(outcome,)  [[elisp:(org-cycle)][| ]]
-"""
-
-def LOG_here(*v, **k):
-    """Mark file and line -- do the equivalent of a print statement.
-    """
-    logControler = LOG_Control()
+####+BEGIN: bx:cs:py3:func :funcName "here" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /here/ deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@io.track.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+def here(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Mark file and line -- do the equivalent of a print statement.
+    #+end_org """
+    logControler = io.log.Control()
     logger = logControler.loggerGet()
 
-    fn = ucf.FUNC_currentGet()
-    argsLength =  ucf.FUNC_argsLength(fn, v, k)
+    fn = bpf.ast.FUNC_currentGet()
+    argsLength =  bpf.ast.FUNC_argsLength(fn, v, k)
 
     if argsLength == 2:   # empty '()'
         outString = ''
     else:
         outString = format(*v, **k)
 
-    logger.info('LOG_: ' + outString + ' -- ' + ucf.stackFrameInfoGet(2) )
+    logger.info('LOG_: ' + outString + ' -- ' + bpf.ast.stackFrameInfoGet(2) )
 
+
+####+BEGIN: bx:icm:py3:section :title "Raw  Logging At Level"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Raw  Logging At Level*  [[elisp:(org-cycle)][| ]]
+#+end_org """
+####+END:
+
+####+BEGIN: bx:cs:py3:func :funcName "debug" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /debug/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def debug(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
+    logger = logControler.loggerGet()
+    return (
+        logger.debug(format(*v, **k))
+    )
+
+####+BEGIN: bx:cs:py3:func :funcName "info" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /info/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def info(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
+    logger = logControler.loggerGet()
+    return (
+        logger.info(format(*v, **k))
+    )
+
+####+BEGIN: bx:cs:py3:func :funcName "warning" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /warning/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def warning(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
+    logger = logControler.loggerGet()
+    return (
+        logger.info(format(*v, **k))
+    )
+
+####+BEGIN: bx:cs:py3:func :funcName "error" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /error/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def error(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
+    logger = logControler.loggerGet()
+    return (
+        logger.error(format(*v, **k))
+    )
+
+####+BEGIN: bx:cs:py3:func :funcName "critical" :funcType "extTyped" :deco ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /critical/  [[elisp:(org-cycle)][| ]]
+#+end_org """
+def critical(
+####+END:
+        *v,
+        **k,
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]
+    #+end_org """
+
+    logControler = io.log.Control()
+    logger = logControler.loggerGet()
+    return (
+        logger.critical(format(*v, **k))
+    )
 
 
 
